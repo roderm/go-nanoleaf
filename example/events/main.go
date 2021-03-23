@@ -2,14 +2,19 @@ package main
 
 import (
 	"fmt"
+	"net"
 
 	"github.com/roderm/go-nanoleaf"
 	"github.com/roderm/go-nanoleaf/example"
 )
 
 func main() {
+	ipAddr, _, err := net.ParseCIDR(example.IP)
+	if err != nil {
+		panic(fmt.Errorf("Invalid IP-Address: %v", err))
+	}
 	d := nanoleaf.NewDevice(
-		nanoleaf.WithIP(example.GetIp()),
+		nanoleaf.WithIP(ipAddr),
 		nanoleaf.WithPort(example.Port),
 		nanoleaf.WithAuthKey(example.AuthKey),
 	)

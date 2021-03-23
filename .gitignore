@@ -1,1 +1,3 @@
+dist
+*.so
 example/config.go
