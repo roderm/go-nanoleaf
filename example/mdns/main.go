@@ -26,7 +26,7 @@ func main() {
 				fmt.Println("Channel already closed")
 				return
 			}
-			fmt.Println("Found a nanoleaf:", nl)
+			fmt.Printf("Found a nanoleaf %s (%s): \n\t IPs: %v\n", nl.Name, nl.Id, nl.Network.IPv4)
 		case <-deadline.C:
 			return
 		}

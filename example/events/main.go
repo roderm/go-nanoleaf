@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	ipAddr, _, err := net.ParseCIDR(example.IP)
+	ipAddr, _, err := net.ParseCIDR(fmt.Sprintf("%s/32", example.IP))
 	if err != nil {
 		panic(fmt.Errorf("Invalid IP-Address: %v", err))
 	}
