@@ -32,7 +32,7 @@ func (p *Panel) GetDevice() *Device {
 func (p *Panel) IdBytes() []byte {
 	switch p.device.Info.Model {
 	case NANOLEAF_AURORA:
-		return []byte{uint8(p.Id)}
+		return []byte{uint8(p.Id), uint8(1)}
 	case NANOLEAF_SHAPES, NANOLEAF_CANVAS:
 		id := make([]byte, 2)
 		binary.BigEndian.PutUint16(id, p.Id)
