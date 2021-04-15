@@ -46,5 +46,6 @@ func (d *Device) Authorization() error {
 		return err
 	}
 	d.apiKey = token.AuthToken
-	return nil
+	_, err = d.Get()
+	return err
 }

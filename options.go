@@ -10,6 +10,7 @@ type Option func(*Device)
 func WithAuthKey(apiKey string) Option {
 	return func(d *Device) {
 		d.apiKey = apiKey
+		d.Get()
 	}
 }
 

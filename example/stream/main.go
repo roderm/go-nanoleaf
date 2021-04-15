@@ -20,7 +20,6 @@ func main() {
 		nanoleaf.WithPort(example.Port),
 		nanoleaf.WithAuthKey(example.AuthKey),
 	)
-	d.Get()
 
 	ctrl, err := stream.NewControll(d)
 	if err != nil {

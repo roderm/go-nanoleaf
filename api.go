@@ -166,3 +166,21 @@ func (d *Device) SetExternalStream() (resp StreamResponse, err error) {
 		}}, &resp)
 	return
 }
+
+func (d *Device) GetEffects() (resp []string, err error) {
+	err = d.get("/effects/effectsList", &resp)
+	return
+}
+
+func (d *Device) SelectEffect(effect string) (err error) {
+	type request struct {
+		Select string `json:"select"`
+	}
+	return d.set("/effects", request{
+		Select: effect,
+	}, nil)
+}
+
+func (d *Device) Effect(effect Effect) (err error) {
+	return d.set("/effects", effect, nil)
+}
