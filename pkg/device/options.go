@@ -1,4 +1,4 @@
-package nanoleaf
+package device
 
 import (
 	"net"

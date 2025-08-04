@@ -1,20 +1,10 @@
-package nanoleaf
+package device
 
 import (
 	"encoding/binary"
 	"fmt"
-)
 
-const (
-	SHAPETYPE_TRIANGLE              = 0
-	SHAPETYPE_RHYTM                 = 1
-	SHAPETYPE_SQUARE                = 2
-	SHAPETYPE_CONTROL_SQUARE_MASTER = 3
-	SHAPETYPE_CONTROL_SQUARE_PASSIV = 4
-	SHAPETYPE_HEXAGON_SHAPE         = 7
-	SHAPETYPE_TRIANGLE_SHAPE        = 8
-	SHAPETYPE_TRIANGLE_MINI_SHAPE   = 9
-	SHAPETYPE_CONTROL_SHAPE         = 12
+	"github.com/roderm/go-nanoleaf/pkg/types"
 )
 
 type Panel struct {
@@ -31,9 +21,9 @@ func (p *Panel) GetDevice() *Device {
 }
 func (p *Panel) IdBytes() []byte {
 	switch p.device.Info.Model {
-	case NANOLEAF_AURORA:
+	case types.NANOLEAF_AURORA:
 		return []byte{uint8(p.Id), uint8(1)}
-	case NANOLEAF_SHAPES, NANOLEAF_CANVAS:
+	case types.NANOLEAF_SHAPES, types.NANOLEAF_CANVAS:
 		id := make([]byte, 2)
 		binary.BigEndian.PutUint16(id, p.Id)
 		return id

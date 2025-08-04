@@ -4,22 +4,23 @@ import (
 	"fmt"
 	"net"
 
-	"github.com/roderm/go-nanoleaf"
 	"github.com/roderm/go-nanoleaf/example"
+	"github.com/roderm/go-nanoleaf/pkg/device"
+	"github.com/roderm/go-nanoleaf/pkg/event"
 )
 
 func main() {
 	ipAddr, _, err := net.ParseCIDR(fmt.Sprintf("%s/32", example.IP))
 	if err != nil {
-		panic(fmt.Errorf("Invalid IP-Address: %v", err))
+		panic(fmt.Errorf("invalid IP-Address: %v", err))
 	}
-	d := nanoleaf.NewDevice(
-		nanoleaf.WithIP(ipAddr),
-		nanoleaf.WithPort(example.Port),
-		nanoleaf.WithAuthKey(example.AuthKey),
+	d := device.NewDevice(
+		device.WithIP(ipAddr),
+		device.WithPort(example.Port),
+		device.WithAuthKey(example.AuthKey),
 	)
 
-	listener := nanoleaf.NewListener(d)
+	listener := event.NewListener(d)
 
 	states, cancelStates, err := listener.States()
 	if err != nil {

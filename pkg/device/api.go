@@ -1,8 +1,11 @@
-package nanoleaf
+package device
 
 import (
 	"fmt"
 	"net"
+	"time"
+
+	"github.com/roderm/go-nanoleaf/pkg/types"
 )
 
 type increment struct {
@@ -26,7 +29,7 @@ func (d *Device) Get() (*Info, error) {
 
 func (d *Device) SetState(state interface{}) (err error) {
 	type onOff struct {
-		Value SwitchState `json:"on"`
+		Value types.SwitchState `json:"on"`
 	}
 	err = d.set("/state", state, nil)
 	return
@@ -34,10 +37,10 @@ func (d *Device) SetState(state interface{}) (err error) {
 
 func (d *Device) SetOn(on bool) error {
 	type onOff struct {
-		Value SwitchState `json:"on"`
+		Value types.SwitchState `json:"on"`
 	}
 	return d.SetState(onOff{
-		SwitchState{
+		types.SwitchState{
 			Value: on,
 		}})
 }
@@ -78,7 +81,7 @@ func (d *Device) IncrementHue(inc int, duration int) error {
 
 func (d *Device) SetSaturation(saturation int, duration int) error {
 	if saturation > d.Info.State.Sat.Max || saturation < d.Info.State.Sat.Min {
-		return fmt.Errorf("Value for 'saturation' must be between %d and %d", d.Info.State.Sat.Min, d.Info.State.Sat.Max)
+		return fmt.Errorf("value for 'saturation' must be between %d and %d", d.Info.State.Sat.Min, d.Info.State.Sat.Max)
 	}
 	type saturationVal struct {
 		Saturation intValue `json:"saturation"`
@@ -103,9 +106,9 @@ func (d *Device) IncrementSaturation(inc int, duration int) error {
 	})
 }
 
-func (d *Device) SetBrightness(bright int, duration int) error {
+func (d *Device) SetBrightness(bright int, duration time.Duration) error {
 	if bright > d.Info.State.Sat.Max || bright < d.Info.State.Sat.Min {
-		return fmt.Errorf("Value for 'bright' must be between %d and %d", d.Info.State.Sat.Min, d.Info.State.Sat.Max)
+		return fmt.Errorf("value for 'bright' must be between %d and %d", d.Info.State.Sat.Min, d.Info.State.Sat.Max)
 	}
 	type brightVal struct {
 		Brightness intValue `json:"brightness"`
@@ -113,19 +116,19 @@ func (d *Device) SetBrightness(bright int, duration int) error {
 	return d.SetState(brightVal{
 		Brightness: intValue{
 			Value:    bright,
-			Duration: duration,
+			Duration: int(duration.Seconds()),
 		},
 	})
 }
 
-func (d *Device) IncrementBrightness(inc int, duration int) error {
+func (d *Device) IncrementBrightness(inc int, duration time.Duration) error {
 	type brightVal struct {
 		Brightness increment `json:"Brightness"`
 	}
 	return d.SetState(brightVal{
 		Brightness: increment{
 			Increment: inc,
-			Duration:  duration,
+			Duration:  int(duration.Seconds()),
 		},
 	})
 }
@@ -156,9 +159,9 @@ func (d *Device) SetExternalStream() (resp StreamResponse, err error) {
 			AnimType: "extControl",
 			ExtControlVersion: func(d *Device) string {
 				switch d.Info.Model {
-				case NANOLEAF_AURORA:
+				case types.NANOLEAF_AURORA:
 					return "v1"
-				case NANOLEAF_CANVAS, NANOLEAF_SHAPES:
+				case types.NANOLEAF_CANVAS, types.NANOLEAF_SHAPES:
 					return "v2"
 				}
 				return "v1"

@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"net"
 
-	"github.com/roderm/go-nanoleaf"
 	"github.com/roderm/go-nanoleaf/example"
+	"github.com/roderm/go-nanoleaf/pkg/device"
 )
 
 func main() {
@@ -13,19 +13,20 @@ func main() {
 	if err != nil {
 		panic(fmt.Errorf("Invalid IP-Address: %v", err))
 	}
-	d := nanoleaf.NewDevice(
-		nanoleaf.WithIP(ipAddr),
-		nanoleaf.WithPort(example.Port),
-		nanoleaf.WithAuthKey(example.AuthKey),
+	d := device.NewDevice(
+		device.WithIP(ipAddr),
+		device.WithPort(example.Port),
+		device.WithAuthKey(example.AuthKey),
 	)
 	d.On()
+	d.SetBrightness(100, 10)
 	effects, err := d.GetEffects()
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println("Got effects on Device:", effects)
+	fmt.Printf("Got effects on Device:\n %v", effects)
 
-	err = d.SelectEffect("Starlight")
+	err = d.SelectEffect("Be Productive")
 	if err != nil {
 		panic(err)
 	}

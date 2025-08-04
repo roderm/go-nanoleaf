@@ -4,7 +4,7 @@ import (
 	"strings"
 
 	"github.com/ideasynthesis/mdns"
-	"github.com/roderm/go-nanoleaf"
+	"github.com/roderm/go-nanoleaf/pkg/device"
 )
 
 type mdnsScanner struct {
@@ -16,14 +16,14 @@ func NewMdns() Scanner {
 	return scanner
 }
 
-func (s *mdnsScanner) Scan(entries chan<- *nanoleaf.Device) error {
+func (s *mdnsScanner) Scan(entries chan<- *device.Device) error {
 	s.services = make(chan *mdns.ServiceEntry)
-	go func(entries chan<- *nanoleaf.Device, services <-chan *mdns.ServiceEntry) {
+	go func(entries chan<- *device.Device, services <-chan *mdns.ServiceEntry) {
 		defer close(entries)
 		for s := range services {
-			device := &nanoleaf.Device{
+			device := &device.Device{
 				Name: s.Name,
-				Network: &nanoleaf.NetworkInterface{
+				Network: &device.NetworkInterface{
 					Port: s.Port,
 					Host: s.Host,
 					IPv4: s.AddrV4,

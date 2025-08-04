@@ -1,4 +1,4 @@
-package nanoleaf
+package device
 
 import (
 	"encoding/json"
@@ -24,7 +24,7 @@ func (d *Device) InvalidateKey(authToken string) error {
 		return err
 	}
 	if resp.StatusCode != 200 {
-		return fmt.Errorf("Error in HTTP-Request on authorize (%s)", resp.Status)
+		return fmt.Errorf("error in HTTP-Request on authorize (%s)", resp.Status)
 	}
 	return nil
 }
@@ -39,7 +39,7 @@ func (d *Device) Authorization() error {
 		return err
 	}
 	if response.StatusCode != 200 {
-		return fmt.Errorf("Error in HTTP-Request on authorize (%d - %s)", response.StatusCode, response.Status)
+		return fmt.Errorf("error in HTTP-Request on authorize (%d - %s)", response.StatusCode, response.Status)
 	}
 	err = json.NewDecoder(response.Body).Decode(&token)
 	if err != nil {

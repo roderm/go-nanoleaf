@@ -1,11 +1,19 @@
 module github.com/roderm/go-nanoleaf
 
-go 1.15
+go 1.24.0
+
+toolchain go1.24.2
 
 require (
-	github.com/donovanhide/eventsource v0.0.0-20171031113327-3ed64d21fb0b
+	github.com/donovanhide/eventsource v0.0.0-20210830082556-c59027999da0
 	github.com/ideasynthesis/mdns v0.3.3
-	github.com/miekg/dns v1.1.27 // indirect
-	golang.org/x/crypto v0.0.0-20200622213623-75b288015ac9 // indirect
-	golang.org/x/net v0.0.0-20210119194325-5f4716e94777 // indirect
+)
+
+require (
+	github.com/miekg/dns v1.1.67 // indirect
+	golang.org/x/mod v0.26.0 // indirect
+	golang.org/x/net v0.42.0 // indirect
+	golang.org/x/sync v0.16.0 // indirect
+	golang.org/x/sys v0.34.0 // indirect
+	golang.org/x/tools v0.35.0 // indirect
 )

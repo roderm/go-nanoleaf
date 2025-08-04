@@ -5,8 +5,8 @@ import (
 	"net"
 	"time"
 
-	"github.com/roderm/go-nanoleaf"
 	"github.com/roderm/go-nanoleaf/example"
+	"github.com/roderm/go-nanoleaf/pkg/device"
 )
 
 func main() {
@@ -14,10 +14,10 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	d := nanoleaf.NewDevice(
-		nanoleaf.WithIP(ipAddr),
-		nanoleaf.WithPort(example.Port),
-		nanoleaf.WithAuthKey(example.AuthKey),
+	d := device.NewDevice(
+		device.WithIP(ipAddr),
+		device.WithPort(example.Port),
+		device.WithAuthKey(example.AuthKey),
 	)
 
 	if err != nil {

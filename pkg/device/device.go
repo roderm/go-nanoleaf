@@ -1,4 +1,4 @@
-package nanoleaf
+package device
 
 import (
 	"encoding/json"
@@ -40,7 +40,7 @@ func (d *Device) handleApiError(resp *http.Response, result interface{}) error {
 		return nil
 	}
 	if resp.StatusCode != 200 {
-		return fmt.Errorf("Error in HTTP-Request (%s)", resp.Status)
+		return fmt.Errorf("error in HTTP-Request (%s)", resp.Status)
 	}
 	return json.NewDecoder(resp.Body).Decode(result)
 }
@@ -54,6 +54,10 @@ func (d *Device) getStream(reqBody interface{}) io.ReadCloser {
 		}
 	}(w)
 	return r
+}
+
+func (d *Device) GetApiKey() string {
+	return d.apiKey
 }
 
 // PUT
