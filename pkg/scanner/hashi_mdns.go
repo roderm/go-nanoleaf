@@ -2,26 +2,27 @@ package scanner
 
 import (
 	"context"
+	"net"
 	"strings"
 
-	"github.com/ideasynthesis/mdns"
+	"github.com/hashicorp/mdns"
 	"github.com/roderm/go-nanoleaf/pkg/device"
 )
 
-type mdnsScanner bool
+type mdnsHashiScanner bool
 
-func NewMdns() Scanner {
-	return new(mdnsScanner)
+func NewHashiMdns() Scanner {
+	return new(mdnsHashiScanner)
 }
 
-func (s *mdnsScanner) toDevice(se *mdns.ServiceEntry) *device.Device {
+func (s *mdnsHashiScanner) toDevice(se *mdns.ServiceEntry) *device.Device {
 	device := &device.Device{
 		Name: se.Name,
 		Network: &device.NetworkInterface{
 			Port: se.Port,
 			Host: se.Host,
-			IPv4: se.AddrV4,
-			IPv6: se.AddrV6,
+			IPv4: []net.IP{se.AddrV4},
+			IPv6: []net.IP{se.AddrV6},
 		},
 	}
 	for _, v := range se.InfoFields {
@@ -40,7 +41,7 @@ func (s *mdnsScanner) toDevice(se *mdns.ServiceEntry) *device.Device {
 	}
 	return device
 }
-func (s *mdnsScanner) Scan(ctx context.Context) (<-chan *device.Device, error) {
+func (s *mdnsHashiScanner) Scan(ctx context.Context) (<-chan *device.Device, error) {
 	ses := make(chan *mdns.ServiceEntry)
 	devs := make(chan *device.Device)
 	go func(ctx context.Context, ses chan *mdns.ServiceEntry, devs chan<- *device.Device) {

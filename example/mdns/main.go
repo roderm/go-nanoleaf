@@ -1,20 +1,19 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"time"
 
-	"github.com/roderm/go-nanoleaf/pkg/device"
 	"github.com/roderm/go-nanoleaf/pkg/scanner"
 )
 
 func main() {
 	// search for 5 minutes
-	deadline := time.NewTimer(time.Minute * 5)
 
-	leafs := make(chan *device.Device)
+	ctx, _ := context.WithTimeout(context.Background(), time.Second*10)
 	scanner := scanner.NewMdns()
-	err := scanner.Scan(leafs)
+	leafs, err := scanner.Scan(ctx)
 	fmt.Println("scanner startet...")
 	if err != nil {
 		panic(err)
@@ -27,7 +26,7 @@ func main() {
 				return
 			}
 			fmt.Printf("Found a nanoleaf %s (%s): \n\t IPs: %v\n", nl.Name, nl.Id, nl.Network.IPv4)
-		case <-deadline.C:
+		case <-ctx.Done():
 			return
 		}
 	}

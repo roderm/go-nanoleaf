@@ -1,10 +1,11 @@
 package scanner
 
 import (
+	"context"
+
 	"github.com/roderm/go-nanoleaf/pkg/device"
 )
 
 type Scanner interface {
-	Scan(chan<- *device.Device) error
-	Stop() error
+	Scan(context.Context) (<-chan *device.Device, error)
 }
